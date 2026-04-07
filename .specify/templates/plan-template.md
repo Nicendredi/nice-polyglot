@@ -31,7 +31,15 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- SpecKit compatibility is preserved for the Community Extension model on SpecKit v0.5.0+.
+- Configuration changes define and validate the three override levels in order: extension,
+  project, then user.
+- Any `.specify` path discovery or update uses `.specify/scripts/powershell/common.ps1`, or
+  the plan documents why that helper cannot be used.
+- User-facing documentation impact is identified, including required English and French file
+  pairs and any README changes.
+- Release packaging impact is identified, including `.extensionignore`, `catalog-entry.json`,
+  and zip-install validation.
 
 ## Project Structure
 
@@ -45,50 +53,38 @@ specs/[###-feature]/
 ├── quickstart.md        # Phase 1 output (/speckit.plan command)
 ├── contracts/           # Phase 1 output (/speckit.plan command)
 └── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created by /speckit.plan)
+
+README.md                # Bilingual root overview: English section, then French section
+docs/
+├── [topic].md           # English user-facing documentation
+└── [topic].fr.md        # French counterpart for the same topic
 ```
 
 ### Source Code (repository root)
 <!--
   ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
-  for this feature. Delete unused options and expand the chosen structure with
-  real paths (e.g., apps/admin, packages/something). The delivered plan must
-  not include Option labels.
+  for this feature. Keep only the paths that apply to the change and expand the
+  chosen structure with real directories and files.
 -->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
-src/
-├── models/
-├── services/
-├── cli/
-└── lib/
+.github/
+└── prompts/             # Agent prompt entry points
 
-tests/
-├── contract/
-├── integration/
-└── unit/
+.specify/
+├── memory/
+├── overrides/
+├── scripts/
+│   └── powershell/
+└── templates/
 
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
+docs/
+├── [topic].md
+└── [topic].fr.md
 
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
+.extensionignore
+catalog-entry.json
+README.md
 ```
 
 **Structure Decision**: [Document the selected structure and reference the real

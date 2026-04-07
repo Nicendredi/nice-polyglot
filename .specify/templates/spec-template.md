@@ -95,6 +95,17 @@
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
 - **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
 
+### Documentation & Delivery Impact *(mandatory when applicable)*
+
+- **Docs Impact**: Identify every user-facing document affected by the feature, including the
+  required English and French file pair for each topic.
+- **README Impact**: State whether the root README.md changes and confirm the English-first,
+  French-second bilingual layout remains valid.
+- **Packaging Impact**: State whether `.extensionignore`, `catalog-entry.json`, or zip-based
+  installation behavior changes.
+- **Hook Impact**: If `before_{command}` hooks or prompt-generation flows change, describe the
+  documentation and validation required for those changes.
+
 ### Key Entities *(include if feature involves data)*
 
 - **[Entity 1]**: [What it represents, key attributes without implementation]
@@ -126,3 +137,4 @@
 - [Assumption about scope boundaries, e.g., "Mobile support is out of scope for v1"]
 - [Assumption about data/environment, e.g., "Existing authentication system will be reused"]
 - [Dependency on existing system/service, e.g., "Requires access to the existing user profile API"]
+- [Assumption about configuration precedence or which override levels are in scope]

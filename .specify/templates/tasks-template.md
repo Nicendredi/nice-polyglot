@@ -8,7 +8,9 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
+**Tests**: The examples below include test tasks. Add tests or equivalent validation tasks whenever
+the constitution requires proof for configuration precedence, `.specify` path handling,
+bilingual documentation completeness, or release packaging behavior.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -49,8 +51,9 @@ description: "Task list template for feature implementation"
 **Purpose**: Project initialization and basic structure
 
 - [ ] T001 Create project structure per implementation plan
-- [ ] T002 Initialize [language] project with [framework] dependencies
-- [ ] T003 [P] Configure linting and formatting tools
+- [ ] T002 Define configuration files and override directories used by the feature
+- [ ] T003 [P] Scaffold required English and French documentation targets
+- [ ] T004 [P] Identify packaging artifacts affected by the feature (`.extensionignore`, `catalog-entry.json`, zip contents)
 
 ---
 
@@ -62,12 +65,11 @@ description: "Task list template for feature implementation"
 
 Examples of foundational tasks (adjust based on your project):
 
-- [ ] T004 Setup database schema and migrations framework
-- [ ] T005 [P] Implement authentication/authorization framework
-- [ ] T006 [P] Setup API routing and middleware structure
-- [ ] T007 Create base models/entities that all stories depend on
-- [ ] T008 Configure error handling and logging infrastructure
-- [ ] T009 Setup environment configuration management
+- [ ] T005 Implement configuration merge and override rules
+- [ ] T006 [P] Integrate `.specify` path resolution through `.specify/scripts/powershell/common.ps1`
+- [ ] T007 [P] Create base prompt, hook, or command assets shared by all stories
+- [ ] T008 Define validation for bilingual documentation and README ordering
+- [ ] T009 Setup packaging validation for installable zip contents
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -83,17 +85,17 @@ Examples of foundational tasks (adjust based on your project):
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T010 [P] [US1] Validation for configuration precedence affected by this story
+- [ ] T011 [P] [US1] Validation for user-visible prompt, hook, or documentation behavior
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T013 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T014 [US1] Implement [Service] in src/services/[service].py (depends on T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T012 [P] [US1] Update configuration or prompt assets in the exact files affected by the story
+- [ ] T013 [P] [US1] Update English and French documentation pair for the story
+- [ ] T014 [US1] Implement the story behavior in the relevant prompt, script, or template files
+- [ ] T015 [US1] Wire `before_{command}` or interaction flow changes, if applicable
 - [ ] T016 [US1] Add validation and error handling
-- [ ] T017 [US1] Add logging for user story 1 operations
+- [ ] T017 [US1] Reconcile packaging metadata if installed behavior changes
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -107,14 +109,14 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Tests for User Story 2 (OPTIONAL - only if tests requested) ⚠️
 
-- [ ] T018 [P] [US2] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T019 [P] [US2] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T018 [P] [US2] Validation for configuration precedence affected by this story
+- [ ] T019 [P] [US2] Validation for user-visible prompt, hook, or documentation behavior
 
 ### Implementation for User Story 2
 
-- [ ] T020 [P] [US2] Create [Entity] model in src/models/[entity].py
-- [ ] T021 [US2] Implement [Service] in src/services/[service].py
-- [ ] T022 [US2] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T020 [P] [US2] Update configuration or prompt assets in the exact files affected by the story
+- [ ] T021 [US2] Implement the story behavior in the relevant prompt, script, or template files
+- [ ] T022 [US2] Update the required English and French documentation pair
 - [ ] T023 [US2] Integrate with User Story 1 components (if needed)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
@@ -129,14 +131,14 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Tests for User Story 3 (OPTIONAL - only if tests requested) ⚠️
 
-- [ ] T024 [P] [US3] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T025 [P] [US3] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T024 [P] [US3] Validation for configuration precedence affected by this story
+- [ ] T025 [P] [US3] Validation for user-visible prompt, hook, or documentation behavior
 
 ### Implementation for User Story 3
 
-- [ ] T026 [P] [US3] Create [Entity] model in src/models/[entity].py
-- [ ] T027 [US3] Implement [Service] in src/services/[service].py
-- [ ] T028 [US3] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T026 [P] [US3] Update configuration or prompt assets in the exact files affected by the story
+- [ ] T027 [US3] Implement the story behavior in the relevant prompt, script, or template files
+- [ ] T028 [US3] Update the required English and French documentation pair
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -150,11 +152,11 @@ Examples of foundational tasks (adjust based on your project):
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] TXXX [P] Documentation updates in docs/
+- [ ] TXXX [P] Reconcile bilingual documentation and root README layout
 - [ ] TXXX Code cleanup and refactoring
-- [ ] TXXX Performance optimization across all stories
-- [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
-- [ ] TXXX Security hardening
+- [ ] TXXX Validate installable zip contents against `.extensionignore`
+- [ ] TXXX [P] Additional automated or manual validation tasks required by the constitution
+- [ ] TXXX Confirm `catalog-entry.json` remains copy-paste ready
 - [ ] TXXX Run quickstart.md validation
 
 ---
