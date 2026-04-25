@@ -3,13 +3,38 @@
   "specName": "001-polyglot-config-extension",
   "branch": "001-polyglot-config-extension",
   "selectedAt": "2026-04-25T08:33:01.421Z",
-  "currentStep": "specify",
-  "status": "draft",
+  "currentStep": "plan",
+  "status": "planning",
   "stepHistory": {
     "specify": {
       "startedAt": "2026-04-25T13:19:26.462Z",
+      "completedAt": "2026-04-25T16:07:25.190Z"
+    },
+    "plan": {
+      "startedAt": "2026-04-25T16:07:25.204Z",
       "completedAt": null
     }
   },
-  "transitions": []
+  "transitions": [
+    {
+      "step": "specify",
+      "substep": null,
+      "from": {
+        "step": "specify",
+        "substep": null
+      },
+      "by": "extension",
+      "at": "2026-04-25T14:29:38.582Z"
+    },
+    {
+      "step": "plan",
+      "substep": null,
+      "from": {
+        "step": "plan",
+        "substep": null
+      },
+      "by": "extension",
+      "at": "2026-04-25T16:07:25.204Z"
+    }
+  ]
 }

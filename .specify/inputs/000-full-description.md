@@ -27,7 +27,7 @@ The configuration will be able to set the list of accepted languages for the fil
 
 If any of the configuration options is not set in the configuration, or is not one of the accepted languages, it will default to English.
 
-Using the resulting configuration, the extension will give the agent the information it needs to generate the expected output in the expected language, and to interact with the user in the expected language. Integrating that information in the prompts used by the agents, will be done through the use of SpecKit's prompt hooks.
+Using the resulting configuration, the extension will give the agent the information it needs to generate the expected output in the expected language, and to interact with the user in the expected language. Integrating that information in the prompts used by the agents, will be done through the use of [SpecKit's prompt hooks](https://github.com/github/spec-kit/blob/v0.5.1/extensions/EXTENSION-DEVELOPMENT-GUIDE.md#hooks).
 
 ### Example
 
@@ -41,4 +41,4 @@ However, if the user tries to set everything to be in Spanish, the agent will in
 
 The release of the extension has to be done by making a zip of the project, so users can add the URL to that zip to their SpecKit extension catalog file.
 
-To make it easier to install the extension, we have to use SpecKit's `.extensionignore`, a `.gitignore`-like file, which will ignore certain files and folder on installation, and a `catalog-entry.json` that can be copy-pasted to the catalog.
+To make it easier to install the extension, we have to use [SpecKit's `.extensionignore`](https://github.com/github/spec-kit/blob/v0.5.1/extensions/EXTENSION-DEVELOPMENT-GUIDE.md#excluding-files-with-extensionignore), a `.gitignore`-like file, which will ignore certain files and folder on installation, and a `catalog-entry.json` that can be copy-pasted to the catalog.
