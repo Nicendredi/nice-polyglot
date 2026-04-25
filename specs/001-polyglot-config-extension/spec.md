@@ -128,7 +128,7 @@ An extension maintainer packages the extension for installation through the stan
 
 ## Assumptions
 
-- Language selections use short standardized language codes such as `en` and `fr`; unrecognized codes are treated as invalid selections.
+- Language selections use ISO 639-1 two-letter codes (e.g., `en`, `fr`, `es`, `pt`, `de`, `fi`, `hi`). Any value that is not a valid ISO 639-1 two-letter lowercase code is treated as an invalid selection and falls back to `en`.
 - Supported workflows are the SpecKit authoring workflows that currently allow this extension to apply language guidance. Workflows without that integration point are out of scope for this feature version.
 - Personal overrides may tailor conversational behavior and category selections, but project maintainers remain authoritative for the list of languages allowed in shared generated files.
 - The environment can determine a stable local user identity for locating a person's override settings.

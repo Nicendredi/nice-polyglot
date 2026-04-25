@@ -32,8 +32,8 @@
 - [ ] **CHK006**: Is the **`{user}` identifier fallback chain** step order explicitly specified for cross-platform behavior? [Clarity, data-model]  
   > data-model.md lists `$env:USERNAME` / `$env:USER` / `unknown` as fallbacks but does not state the priority order between `USERNAME` (Windows) and `USER` (POSIX). Ambiguous on environments where both may be set. [data-model.md §ConfigLayer]
 
-- [ ] **CHK007**: Is "**unrecognized language code**" defined with a precise, testable rule in the spec itself? [Clarity, FR-006]  
-  > The spec says "unrecognized codes are treated as invalid." The contracts and data-model tighten this to `/^[a-z]{2}$/`. If the spec is the authoritative requirements document, this precision is missing there. [Spec §FR-006, Assumptions]
+- [x] **CHK007**: Is "**unrecognized language code**" defined with a precise, testable rule in the spec itself? [Clarity, FR-006]  
+  > **RESOLVED 2026-04-25**: Standard is ISO 639-1. Spec Assumptions updated to name ISO 639-1 explicitly and list the canonical known codes (`en`, `fr`, `es`, `pt`, `de`, `fi`, `hi`). Invalid = not a valid ISO 639-1 two-letter lowercase code → falls back to `en`. Aligns with `/^[a-z]{2}$/` in data-model and config-schema.
 
 ---
 
