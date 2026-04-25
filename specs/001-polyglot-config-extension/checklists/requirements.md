@@ -1,7 +1,7 @@
 # Specification Quality Checklist: Nice Polyglot — Multilingual Configuration Extension for SpecKit
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
-**Created**: 2026-04-08
+**Created**: 2026-04-25
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality
@@ -31,7 +31,7 @@
 
 ## Notes
 
-- All items passed on first validation pass (2026-04-08).
-- Assumption made: user-level overrides are scoped to `interactions` category only, as the description states "limited options" without enumerating them. This is the most reasonable default for a personal/individual setting.
-- Assumption made: language codes follow IETF BCP 47 / ISO 639-1 (e.g., `en`, `fr`), as no code format was specified.
-- Spec is ready for `/speckit.clarify` or `/speckit.plan`.
+- Validation pass 1 (2026-04-25) found implementation-detail leakage in the prior draft, including internal script choices, hook event names, and repository-internal mechanics.
+- Validation pass 2 (2026-04-25) replaced those details with user-visible behavior, precedence rules, documentation obligations, and packaging outcomes; all checklist items passed.
+- Assumption retained: workflows without a current language-guidance integration point are out of scope for this feature version.
+- Spec is ready for `/speckit.plan` or `/speckit.clarify`.
