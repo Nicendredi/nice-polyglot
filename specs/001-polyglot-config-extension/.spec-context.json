@@ -1,0 +1,15 @@
+{
+  "workflow": "speckit",
+  "specName": "001-polyglot-config-extension",
+  "branch": "001-polyglot-config-extension",
+  "selectedAt": "2026-04-25T08:33:01.421Z",
+  "currentStep": "specify",
+  "status": "draft",
+  "stepHistory": {
+    "specify": {
+      "startedAt": "2026-04-25T13:19:26.462Z",
+      "completedAt": null
+    }
+  },
+  "transitions": []
+}
