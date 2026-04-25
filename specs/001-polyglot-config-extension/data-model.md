@@ -47,9 +47,14 @@ applied in ascending precedence order.
 
 | Layer | Path (relative to `.specify` root) | Precedence | Who controls it |
 |---|---|---|---|
-| Base | `extensions/nice-polyglot/nice-polyglot-config.yml` | Lowest (1) | Extension author |
+| Extension | `extensions/nice-polyglot/nice-polyglot-config.yml` | Lowest (1) | SpecKit admin / project team (created from `config-template.yml` if needed) |
 | Project | `overrides/nice-polyglot-config.yml` | Middle (2) | Project maintainer |
 | User | `.nice-polyglot/{user}-config.yml` | Highest (3) | Individual contributor |
+
+> **Note**: The extension does not ship a pre-filled config file. Per the SpecKit extension template
+> convention, only `config-template.yml` is distributed. All three layer files are optional and
+> user-created. This ensures extension updates never overwrite existing configuration.
+> When no layer files exist, the resolution script uses hardcoded defaults (all categories `en`).
 
 `{user}` = `git config user.email` sanitized: `@` → `-at-`, `.` → `-`, lowercased.
 Fallback order when git email is unavailable: `$env:USERNAME` (1st), then `$env:USER` (2nd), then the literal string `unknown` (3rd).
@@ -60,7 +65,7 @@ Fallback order when git email is unavailable: `$env:USERNAME` (1st), then `$env:
 schema_version: "1.0"       # Optional; reserved for future migration
 
 # Only authoritative at project layer.
-# Extension base defines the initial default set.
+# Extension layer may also set this to establish shared defaults across all projects in a shared .specify/ root.
 # User layer MUST NOT set this field (it is ignored if present).
 accepted_languages:
   - en                       # Always present
@@ -86,7 +91,7 @@ runtime. Produced by the merge algorithm from the three `ConfigLayer` instances.
 
 | Attribute | Type | Source |
 |---|---|---|
-| `accepted_languages` | `LanguageCode[]` | Project layer (authoritative); base layer provides the initial default list; user layer value ignored |
+| `accepted_languages` | `LanguageCode[]` | Project layer (authoritative for shared projects); extension layer may set shared defaults; user layer value ignored |
 | `interactions` | `LanguageCode` | Highest layer that sets it; unconstrained |
 | `artifacts` | `LanguageCode` | Highest layer that sets a valid value; validated against `accepted_languages` |
 | `documentation` | `LanguageCode` | Same |
@@ -100,21 +105,22 @@ runtime. Produced by the merge algorithm from the three `ConfigLayer` instances.
 
 ## Merge Algorithm
 
-Inputs: base `ConfigLayer`, project `ConfigLayer` (optional), user `ConfigLayer` (optional)  
+Inputs: extension `ConfigLayer` (optional), project `ConfigLayer` (optional), user `ConfigLayer` (optional)  
 Output: `EffectiveLanguagePolicy`  
 *Satisfies*: SC-002 (all outputs follow resolved policy), SC-003 (workflows complete when higher-precedence layers are invalid)
 
 ```
-1. Load the base layer. If the base layer file is missing or unreadable, use hardcoded defaults
-   (all categories `en`, `accepted_languages: [en]`) as the starting working policy and log a
-   warning to stderr. Otherwise, start with base layer values as the working policy.
+1. Start with hardcoded defaults (all categories `en`, `accepted_languages: [en]`) as the initial
+   working policy. If the extension layer file exists and is readable, apply its values on top
+   (replacing defaults). If the extension layer file exists but is unreadable/malformed, skip it
+   and log a warning to stderr (V-006, V-007).
 
 2. If project layer file exists and is readable:
    a. If accepted_languages is present and non-empty, replace working accepted_languages.
       Always ensure "en" is in the list (add it if absent).
    b. For each language_settings key present in project layer, replace the working value.
       A missing or empty language_settings block contributes no overrides (working policy unchanged).
-   c. If project layer is malformed/unreadable: skip it, retain base values, log warning to stderr.
+   c. If project layer is malformed/unreadable: skip it, retain current working values, log warning to stderr.
 
 3. If user layer file exists and is readable:
    a. If accepted_languages field is present, ignore it and log a warning to stderr (FR-010).
@@ -146,7 +152,7 @@ Output: `EffectiveLanguagePolicy`
 | V-004 | `interactions` value is not a two-letter code | Fallback to `en`; log the fallback |
 | V-005 | User layer sets `accepted_languages` | Ignore; log warning to stderr (FR-010) |
 | V-006 | Any config layer file is malformed or unreadable | Skip that layer; retain values from lower-precedence layers; log warning to stderr (FR-011) |
-| V-007 | Base layer file is missing or unreadable | Use hardcoded defaults (all categories `en`, `accepted_languages: [en]`) as starting policy; log warning to stderr; apply project and user layers normally |
+| V-007 | Extension layer file exists but is unreadable or malformed | Skip it; use hardcoded defaults as starting policy; log warning to stderr; apply project and user layers normally |
 | V-008 | A `language_settings` block is absent or contains no keys | Treat that layer as contributing no overrides; working policy unchanged for those keys |
 
 ---
@@ -161,12 +167,13 @@ SpecKit workflow run).
 
 ---
 
-## Extension Base Config Defaults
+## Script Hardcoded Defaults
 
-The base `nice-polyglot-config.yml` shipped with the extension defines these defaults:
+The resolution script uses these hardcoded defaults when no extension layer config file is present
+(or when all three config files are absent). These are equivalent to what an all-English extension
+layer config would produce:
 
 ```yaml
-schema_version: "1.0"
 accepted_languages:
   - en
 language_settings:
@@ -180,4 +187,4 @@ language_settings:
   commit-messages: en
 ```
 
-All categories default to English. This is the fallback when no project or user config is present.
+All categories default to English. No config files are required for a functioning installation.

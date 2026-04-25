@@ -18,8 +18,9 @@ All three layers share the same schema; which fields are authoritative varies by
 schema_version: "1.0"
 
 # Accepted language codes for shared file-output categories.
-# AUTHORITATIVE at project layer only.
-# Extension base sets the initial defaults.
+# AUTHORITATIVE at project layer.
+# Extension layer may also set this to establish shared defaults across all projects
+# in a shared `.specify/` root. Not shipped by the extension itself.
 # User layer: this field is IGNORED (FR-010).
 # Rules:
 #   - Values must be ISO 639-1 two-letter codes (e.g., "en", "fr", "es")
@@ -69,11 +70,11 @@ language_settings:
 
 ## Per-Layer Field Authority
 
-| Field | Base layer | Project layer | User layer |
+| Field | Extension layer | Project layer | User layer |
 |---|---|---|---|
 | `schema_version` | Sets default | Overrides | Overrides |
-| `accepted_languages` | Sets initial defaults | **Authoritative** — overrides base | **Ignored** |
-| `language_settings.*` | Sets initial defaults | Overrides base | Overrides base+project |
+| `accepted_languages` | Sets shared defaults (optional) | **Authoritative** — overrides extension | **Ignored** |
+| `language_settings.*` | Sets shared defaults (optional) | Overrides extension | Overrides extension+project |
 
 ---
 
@@ -93,11 +94,11 @@ language_settings:
 
 ## File Locations
 
-| Layer | Path (relative to `.specify` root) |
-|---|---|
-| Extension base | `extensions/nice-polyglot/nice-polyglot-config.yml` |
-| Project override | `overrides/nice-polyglot-config.yml` |
-| User override | `.nice-polyglot/{user}-config.yml` |
+| Layer | Path (relative to `.specify` root) | Notes |
+|---|---|---|
+| Extension layer | `extensions/nice-polyglot/nice-polyglot-config.yml` | Optional; user-created from `config-template.yml` |
+| Project override | `overrides/nice-polyglot-config.yml` | Optional; user-created from `config-template.yml` |
+| User override | `.nice-polyglot/{user}-config.yml` | Optional; user-created from `config-template.yml` |
 
 `{user}` derivation: `git config user.email` with `@` → `-at-`, `.` → `-`, lowercased.
 Fallback: `$env:USERNAME` / `$env:USER` / `unknown`.

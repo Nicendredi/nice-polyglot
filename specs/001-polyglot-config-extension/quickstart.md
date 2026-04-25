@@ -24,7 +24,7 @@ No `yq` or external YAML tools required — the resolution script uses native PS
 ```text
 nice-polyglot/               ← repo root = extension root
 ├── extension.yml            ← extension manifest
-├── config-template.yml      ← template users copy to create their config
+├── config-template.yml      ← template users copy to create any config layer
 ├── catalog-entry.json       ← copy-paste catalog entry for community catalog
 ├── .extensionignore         ← exclude dev-only files from installable zip
 ├── CHANGELOG.md
@@ -82,7 +82,7 @@ Run the script from within any SpecKit project directory:
 pwsh .specify/extensions/nice-polyglot/scripts/powershell/resolve-language-policy.ps1
 ```
 
-Expected output (with no project or user config — base defaults only):
+Expected output (with no config files present — script hardcoded defaults):
 
 ```
 NICE_POLYGLOT_POLICY_START
@@ -128,7 +128,7 @@ Expected effective policy after merge:
 - `interactions`: `es` (unconstrained — user override wins)
 - `artifacts`: `fr` (project override, valid against accepted_languages)
 - `documentation`: `fr` (project override, valid)
-- `code`, `code-comments`, `log-messages`, `internal-docs`, `commit-messages`: `en` (base default)
+- `code`, `code-comments`, `log-messages`, `internal-docs`, `commit-messages`: `en` (script hardcoded defaults, no extension layer config present)
 
 ---
 
@@ -149,17 +149,17 @@ The `before_specify` hook will fire automatically before the main command, runni
 ## Building the Installable Zip
 
 ```bash
-# From the repo root — zip respects .extensionignore
-zip -r nice-polyglot-1.0.0.zip . --exclude-from .extensionignore
+# From the repo root — zip the full repository
+zip -r nice-polyglot-1.0.0.zip .
 ```
 
-Test installation from the zip:
+Install from the zip (the SpecKit CLI reads `.extensionignore` to skip dev-only files during installation):
 
 ```bash
 specify extension add nice-polyglot --from ./nice-polyglot-1.0.0.zip
 ```
 
-Verify the installed files do NOT include `specs/`, `.specify/`, `.github/`, `.vscode/`.
+Verify the installed extension directory does NOT include `specs/`, `.specify/`, `.github/`, `.vscode/`.
 
 ---
 

@@ -46,7 +46,7 @@ follows command file instructions.
 
 | Layer | Path |
 |---|---|
-| Extension base (post-install) | `.specify/extensions/nice-polyglot/nice-polyglot-config.yml` |
+| Extension layer (user-created from `config-template.yml`) | `.specify/extensions/nice-polyglot/nice-polyglot-config.yml` |
 | Project override | `.specify/overrides/nice-polyglot-config.yml` |
 | User override | `.specify/.nice-polyglot/{user}-config.yml` |
 
