@@ -101,7 +101,8 @@ runtime. Produced by the merge algorithm from the three `ConfigLayer` instances.
 ## Merge Algorithm
 
 Inputs: base `ConfigLayer`, project `ConfigLayer` (optional), user `ConfigLayer` (optional)  
-Output: `EffectiveLanguagePolicy`
+Output: `EffectiveLanguagePolicy`  
+*Satisfies*: SC-002 (all outputs follow resolved policy), SC-003 (workflows complete when higher-precedence layers are invalid)
 
 ```
 1. Load the base layer. If the base layer file is missing or unreadable, use hardcoded defaults

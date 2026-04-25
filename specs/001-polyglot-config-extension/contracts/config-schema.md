@@ -79,6 +79,8 @@ language_settings:
 
 ## Validation Constraints
 
+> **Design constraint** (not a spec FR): `schema_version` handling is an implementation-level forward-compatibility mechanism. It is intentionally not captured as a functional requirement because it has no user-visible behavioral effect in v1.0. The behavior below is the authoritative design decision for implementers.
+
 | Field | Constraint |
 |---|---|
 | `schema_version` | If present, must be `"1.0"`. Unknown versions: log warning, continue. |

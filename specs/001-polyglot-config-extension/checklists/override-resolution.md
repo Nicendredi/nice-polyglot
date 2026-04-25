@@ -39,28 +39,28 @@
 
 ## Requirement Consistency
 
-- [ ] **CHK008**: Are the **`accepted_languages` empty-list fallback rules** stated consistently across spec, data-model, and config-schema? [Consistency, FR-006]  
-  > Spec edge cases: "empty → fall back to English." data-model step 2a: "ensure 'en' is in the list." config-schema.md: "An empty list is treated as `['en']`." Confirm the three descriptions produce identical runtime behavior and that no artifact adds a constraint the others omit.
+- [x] **CHK008**: Are the **`accepted_languages` empty-list fallback rules** stated consistently across spec, data-model, and config-schema? [Consistency, FR-006]  
+  > **RESOLVED 2026-04-25**: All three artifacts consistent. Spec edge cases: "empty/missing/only-unrecognized → English." data-model V-001/step 6: treat as `[en]`. config-schema: "empty list treated as `[en]`". All produce identical outcome.
 
-- [ ] **CHK009**: Is the **`interactions` category's unconstrained behavior** stated consistently in spec (FR-008), data-model (LanguageCategory table), and config-schema? [Consistency, FR-008]  
-  > All three artifacts address this; confirm none imposes an `accepted_languages` check on `interactions` while the others explicitly exempt it.
+- [x] **CHK009**: Is the **`interactions` category's unconstrained behavior** stated consistently in spec (FR-008), data-model (LanguageCategory table), and config-schema? [Consistency, FR-008]  
+  > **RESOLVED 2026-04-25**: All three artifacts consistent. spec FR-008, data-model LanguageCategory table + step 5, and config-schema validation all explicitly exempt `interactions` from `accepted_languages`. No artifact imposes that constraint.
 
-- [ ] **CHK010**: Does the **merge algorithm validation step (step 4)** align with FR-009 by using the *project-layer-resolved* `accepted_languages` — not a stale base-layer copy — when validating user overrides? [Consistency, FR-009]  
-  > If the merge algorithm validates user shared-file settings against the base layer's `accepted_languages` instead of the already-merged project value, a project that restricts the list would not enforce its restriction on user overrides. [data-model.md §Merge Algorithm step 4]
+- [x] **CHK010**: Does the **merge algorithm validation step (step 4)** align with FR-009 by using the *project-layer-resolved* `accepted_languages` — not a stale base-layer copy — when validating user overrides? [Consistency, FR-009]  
+  > **RESOLVED 2026-04-25**: Step 4 runs after steps 1–3, so `accepted_languages` already holds the project-layer value when user-layer settings are validated. No stale copy risk. [data-model.md §Merge Algorithm]
 
 ---
 
 ## Coverage / Edge Cases
 
-- [ ] **CHK011**: Is the behavior specified when `accepted_languages` contains **`en` plus only unrecognized codes** (e.g., `["en", "zz"]`)? [Coverage, Edge Case]  
-  > Spec edge case covers "only unrecognized values → fall back to English." But `en` is recognized — after dropping `zz`, the list becomes `["en"]`. Is this narrowing behavior specified and distinct from the all-unrecognized case?
+- [x] **CHK011**: Is the behavior specified when `accepted_languages` contains **`en` plus only unrecognized codes** (e.g., `["en", "zz"]`)? [Coverage, Edge Case]  
+  > **RESOLVED 2026-04-25**: data-model V-002 unifies both cases — "Ignore unrecognized codes; retain valid ones; ensure `en` present." After dropping `zz`, result is `[en]`. No separate rule needed; outcome is identical to the all-unrecognized case.
 
 ---
 
 ## Traceability
 
-- [ ] **CHK012**: Is **`schema_version` handling** present as a requirement in the spec, or only as an undocumented design decision in config-schema.md? [Traceability, Gap]  
-  > config-schema.md defines: "If present, must be '1.0'. Unknown versions: log warning, continue." This behavior is not traceable to any FR in the spec (FR-001–FR-016). Either a requirement should be added or this should be marked as an intentional design constraint.
+- [x] **CHK012**: Is **`schema_version` handling** present as a requirement in the spec, or only as an undocumented design decision in config-schema.md? [Traceability, Gap]  
+  > **RESOLVED 2026-04-25**: Intentional design constraint — `schema_version` has no user-visible behavioral effect in v1.0. A design-constraint note added to config-schema.md explicitly states it is not a spec FR. No FR addition needed.
 
-- [ ] **CHK013**: Are success criteria **SC-002 and SC-003** directly traceable to specific merge algorithm steps in data-model.md? [Traceability, Spec §SC-002, SC-003]  
-  > SC-002 ("100% of outputs follow effective language policy") and SC-003 ("workflows complete with invalid higher-precedence config") each depend on specific merge/validation steps. If data-model.md does not reference these criteria, a task implementer cannot confirm their implementation satisfies them.
+- [x] **CHK013**: Are success criteria **SC-002 and SC-003** directly traceable to specific merge algorithm steps in data-model.md? [Traceability, Spec §SC-002, SC-003]  
+  > **RESOLVED 2026-04-25**: Traceability note added to data-model.md Merge Algorithm header: "Satisfies: SC-002 (all outputs follow resolved policy), SC-003 (workflows complete when higher-precedence layers are invalid)."
