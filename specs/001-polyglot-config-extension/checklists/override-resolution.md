@@ -10,14 +10,14 @@
 
 ## Requirement Completeness
 
-- [ ] **CHK001**: Is the behavior specified when the **extension base config layer** file is missing or unreadable at runtime? [Completeness, Gap]  
-  > FR-011 explicitly covers project and user layers, but the data-model merge algorithm (step 1) silently assumes the base layer is always present. If the base file is absent, the starting state of the working policy is undefined.
+- [x] **CHK001**: Is the behavior specified when the **extension base config layer** file is missing or unreadable at runtime? [Completeness, Gap]  
+  > **RESOLVED 2026-04-25**: Base layer missing/unreadable → hardcoded defaults (all categories `en`, `accepted_languages: [en]`); log warning to stderr; project and user layers applied normally on top. FR-011 updated; data-model.md step 1 and V-007 updated.
 
-- [ ] **CHK002**: Is the behavior defined when a user override file **exists but contains zero `language_settings` keys** (e.g., an empty `language_settings:` block or an empty file)? [Completeness, Edge Case]  
-  > A syntactically valid but empty layer should be treated as "no overrides from this layer." Neither spec nor data-model explicitly states this. [Spec §FR-011]
+- [x] **CHK002**: Is the behavior defined when a user override file **exists but contains zero `language_settings` keys** (e.g., an empty `language_settings:` block or an empty file)? [Completeness, Edge Case]  
+  > **RESOLVED 2026-04-25**: An absent or empty `language_settings` block contributes no overrides; working policy is unchanged for those keys. data-model.md steps 2b/3b and V-008 updated.
 
-- [ ] **CHK003**: Is there a requirement covering what happens when a user layer **sets `accepted_languages`** to a non-empty list — specifically whether this triggers a warning or is silently ignored? [Completeness, FR-010]  
-  > FR-010 says the user MUST NOT expand the list; data-model says "ignore." But "silently ignored" vs. "warn the user" is unspecified, yet FR-011 establishes a warning pattern for other invalid inputs.
+- [x] **CHK003**: Is there a requirement covering what happens when a user layer **sets `accepted_languages`** to a non-empty list — specifically whether this triggers a warning or is silently ignored? [Completeness, FR-010]  
+  > **RESOLVED 2026-04-25**: Non-silent — ignored and logged to stderr. FR-010 updated; data-model.md step 3a and V-005 updated.
 
 ---
 
@@ -26,8 +26,8 @@
 - [x] **CHK004**: Is **partial field-level invalidity** in a config layer distinguished from whole-file malformation? [Clarity, Ambiguity]  
   > **RESOLVED 2026-04-25**: Whole-file granularity adopted. FR-011 updated to: a malformed or unreadable layer is skipped entirely; field-level partial invalidity deferred to a future feature. data-model.md merge steps 2c/3c are authoritative. [Spec §FR-011]
 
-- [ ] **CHK005**: Is the **warning output format and channel** defined for malformed or unreadable config layers? [Clarity, FR-011]  
-  > FR-011 requires warning the user, but neither spec nor plan defines what that warning looks like — stdout message, structured YAML field in the script output, log file, or agent-displayed text. Without this, implementers will choose arbitrarily.
+- [x] **CHK005**: Is the **warning output format and channel** defined for malformed or unreadable config layers? [Clarity, FR-011]  
+  > **RESOLVED 2026-04-25**: All warnings written to stderr of the resolution script. FR-010, FR-011 updated; data-model.md step 1, step 3a, V-005, V-006, V-007 all specify stderr explicitly.
 
 - [ ] **CHK006**: Is the **`{user}` identifier fallback chain** step order explicitly specified for cross-platform behavior? [Clarity, data-model]  
   > data-model.md lists `$env:USERNAME` / `$env:USER` / `unknown` as fallbacks but does not state the priority order between `USERNAME` (Windows) and `USER` (POSIX). Ambiguous on environments where both may be set. [data-model.md §ConfigLayer]

@@ -104,18 +104,22 @@ Inputs: base `ConfigLayer`, project `ConfigLayer` (optional), user `ConfigLayer`
 Output: `EffectiveLanguagePolicy`
 
 ```
-1. Start with base layer values as the working policy.
+1. Load the base layer. If the base layer file is missing or unreadable, use hardcoded defaults
+   (all categories `en`, `accepted_languages: [en]`) as the starting working policy and log a
+   warning to stderr. Otherwise, start with base layer values as the working policy.
 
 2. If project layer file exists and is readable:
    a. If accepted_languages is present and non-empty, replace working accepted_languages.
       Always ensure "en" is in the list (add it if absent).
    b. For each language_settings key present in project layer, replace the working value.
-   c. If project layer is malformed/unreadable: skip it, retain base values, WARN user.
+      A missing or empty language_settings block contributes no overrides (working policy unchanged).
+   c. If project layer is malformed/unreadable: skip it, retain base values, log warning to stderr.
 
 3. If user layer file exists and is readable:
-   a. Ignore any accepted_languages field (FR-010).
+   a. If accepted_languages field is present, ignore it and log a warning to stderr (FR-010).
    b. For each language_settings key present in user layer, replace the working value.
-   c. If user layer is malformed/unreadable: skip it, retain current working values, WARN user.
+      A missing or empty language_settings block contributes no overrides (working policy unchanged).
+   c. If user layer is malformed/unreadable: skip it, retain current working values, log warning to stderr.
 
 4. Validate every language_settings value except interactions:
    a. If value is not in accepted_languages → replace with "en", LOG the fallback.
@@ -139,9 +143,10 @@ Output: `EffectiveLanguagePolicy`
 | V-002 | `accepted_languages` contains unrecognized codes | Ignore unrecognized codes; retain valid ones; ensure `en` present |
 | V-003 | Shared file-output category value not in `accepted_languages` | Fallback to `en`; log the fallback |
 | V-004 | `interactions` value is not a two-letter code | Fallback to `en`; log the fallback |
-| V-005 | User layer sets `accepted_languages` | Silently ignore (FR-010) |
-| V-006 | Any config layer file is malformed or unreadable | Skip that layer; retain values from lower-precedence layers; warn user (FR-011) |
-| V-007 | All three config files are missing/unreadable | Use hardcoded defaults: all categories `en`, `accepted_languages: [en]` |
+| V-005 | User layer sets `accepted_languages` | Ignore; log warning to stderr (FR-010) |
+| V-006 | Any config layer file is malformed or unreadable | Skip that layer; retain values from lower-precedence layers; log warning to stderr (FR-011) |
+| V-007 | Base layer file is missing or unreadable | Use hardcoded defaults (all categories `en`, `accepted_languages: [en]`) as starting policy; log warning to stderr; apply project and user layers normally |
+| V-008 | A `language_settings` block is absent or contains no keys | Treat that layer as contributing no overrides; working policy unchanged for those keys |
 
 ---
 
