@@ -95,7 +95,7 @@ An extension maintainer packages the extension for installation through the stan
 - **FR-008**: Conversational language used for agent interaction with the user MUST be configurable independently from shared file-output languages and MAY use a language outside the accepted language list.
 - **FR-009**: User-level overrides for shared file-output categories MUST still honor the project's accepted language list.
 - **FR-010**: User-level configuration MUST NOT be able to expand or replace the project's accepted language list.
-- **FR-011**: If a configuration layer is malformed, unreadable, or contains invalid values, the extension MUST ignore that layer's invalid settings, retain the previous valid settings, warn the user, and allow the workflow to continue.
+- **FR-011**: If a configuration layer is malformed or unreadable as a whole, the extension MUST ignore that entire layer, retain the previous valid settings from lower-precedence layers, warn the user, and allow the workflow to continue. Field-level partial invalidity within a layer (e.g., one invalid language code among several valid settings) is out of scope for this feature version.
 - **FR-012**: Supported SpecKit authoring workflows MUST automatically apply the effective language settings before user interaction or content generation begins.
 - **FR-013**: The extension MUST provide user-facing documentation that explains installation, configuration precedence, accepted-language behavior, personal override limits, and troubleshooting.
 - **FR-014**: User-facing documentation for this feature MUST be maintained in both English and French.

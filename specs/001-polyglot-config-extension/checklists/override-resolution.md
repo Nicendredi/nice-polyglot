@@ -23,8 +23,8 @@
 
 ## Requirement Clarity
 
-- [ ] **CHK004**: Is **partial field-level invalidity** in a config layer distinguished from whole-file malformation? [Clarity, Ambiguity]  
-  > FR-011 says "ignore that layer's *invalid settings*, retain the previous valid settings" — implying field-level granularity. The data-model step 2c says "if project layer is malformed/unreadable: *skip it*" — implying whole-file. These are in conflict. [Spec §FR-011, data-model.md §Merge Algorithm]
+- [x] **CHK004**: Is **partial field-level invalidity** in a config layer distinguished from whole-file malformation? [Clarity, Ambiguity]  
+  > **RESOLVED 2026-04-25**: Whole-file granularity adopted. FR-011 updated to: a malformed or unreadable layer is skipped entirely; field-level partial invalidity deferred to a future feature. data-model.md merge steps 2c/3c are authoritative. [Spec §FR-011]
 
 - [ ] **CHK005**: Is the **warning output format and channel** defined for malformed or unreadable config layers? [Clarity, FR-011]  
   > FR-011 requires warning the user, but neither spec nor plan defines what that warning looks like — stdout message, structured YAML field in the script output, log file, or agent-displayed text. Without this, implementers will choose arbitrarily.
