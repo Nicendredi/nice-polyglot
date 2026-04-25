@@ -52,7 +52,7 @@ applied in ascending precedence order.
 | User | `.nice-polyglot/{user}-config.yml` | Highest (3) | Individual contributor |
 
 `{user}` = `git config user.email` sanitized: `@` → `-at-`, `.` → `-`, lowercased.
-Fallback to `$env:USERNAME` / `$env:USER` / `unknown` when git email is unavailable.
+Fallback order when git email is unavailable: `$env:USERNAME` (1st), then `$env:USER` (2nd), then the literal string `unknown` (3rd).
 
 **Schema** (all fields optional; missing fields fall through to the next lower layer):
 

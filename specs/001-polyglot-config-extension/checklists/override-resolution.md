@@ -29,8 +29,8 @@
 - [x] **CHK005**: Is the **warning output format and channel** defined for malformed or unreadable config layers? [Clarity, FR-011]  
   > **RESOLVED 2026-04-25**: All warnings written to stderr of the resolution script. FR-010, FR-011 updated; data-model.md step 1, step 3a, V-005, V-006, V-007 all specify stderr explicitly.
 
-- [ ] **CHK006**: Is the **`{user}` identifier fallback chain** step order explicitly specified for cross-platform behavior? [Clarity, data-model]  
-  > data-model.md lists `$env:USERNAME` / `$env:USER` / `unknown` as fallbacks but does not state the priority order between `USERNAME` (Windows) and `USER` (POSIX). Ambiguous on environments where both may be set. [data-model.md §ConfigLayer]
+- [x] **CHK006**: Is the **`{user}` identifier fallback chain** step order explicitly specified for cross-platform behavior? [Clarity, data-model]  
+  > **RESOLVED 2026-04-25**: Listed order is the priority order. data-model.md updated to state explicitly: `$env:USERNAME` (1st) → `$env:USER` (2nd) → literal `unknown` (3rd). [data-model.md §ConfigLayer]
 
 - [x] **CHK007**: Is "**unrecognized language code**" defined with a precise, testable rule in the spec itself? [Clarity, FR-006]  
   > **RESOLVED 2026-04-25**: Standard is ISO 639-1. Spec Assumptions updated to name ISO 639-1 explicitly and list the canonical known codes (`en`, `fr`, `es`, `pt`, `de`, `fi`, `hi`). Invalid = not a valid ISO 639-1 two-letter lowercase code → falls back to `en`. Aligns with `/^[a-z]{2}$/` in data-model and config-schema.
