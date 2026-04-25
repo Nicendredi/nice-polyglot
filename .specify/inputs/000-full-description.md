@@ -1,8 +1,8 @@
-This project will a be [SpecKit Community Extension](https://github.com/github/spec-kit/tree/v0.5.0?tab=readme-ov-file#-community-extensions) for SpecKit v0.5.0+.
+This project will a be [SpecKit Community Extension](https://github.com/github/spec-kit/tree/v0.5.1?tab=readme-ov-file#-community-extensions) for SpecKit v0.5.1+.
 
 ## Project structure
 
-The content of the repository will follow the [SpecKit extensions template](https://github.com/github/spec-kit/tree/v0.5.0/extensions/template/). The link points to template folder and should be used the scaffold, but other files and folders will be added to the structure as needed, such as a `scripts` folder for powershell scripts.
+The content of the repository will follow the [SpecKit extensions template](https://github.com/github/spec-kit/tree/v0.5.1/extensions/template/). The link points to template folder and should be used the scaffold, but other files and folders will be added to the structure as needed, such as a `scripts` folder for powershell scripts.
 
 ## Main goals
 
