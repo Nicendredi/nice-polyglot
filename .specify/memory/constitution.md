@@ -1,24 +1,15 @@
 <!--
 Sync Impact Report
-Version change: unversioned template -> 1.0.0
+Version change: unversioned template -> 1.0.0 -> 1.0.1
 Modified principles:
-- Template Principle 1 -> I. SpecKit Compatibility First
-- Template Principle 2 -> II. Deterministic Configuration Precedence
-- Template Principle 3 -> III. Canonical .specify Resolution
-- Template Principle 4 -> IV. Bilingual Documentation Is a Deliverable
-- Template Principle 5 -> V. Catalog-Ready Release Packaging
+- Principle I: Updated minimum SpecKit version floor from v0.5.0 to v0.5.1.
+  Rationale: `before_*` hook registration requires SpecKit v0.5.1; v0.5.0 does not
+  support the full hook list used by this extension.
 Added sections:
-- Extension Constraints
-- Delivery Workflow & Quality Gates
+- None
 Removed sections:
 - None
 Templates requiring updates:
-- ✅ .specify/templates/plan-template.md
-- ✅ .specify/templates/spec-template.md
-- ✅ .specify/templates/tasks-template.md
-- ⚠ pending .specify/templates/commands/*.md (directory not present in this scaffold)
-- ✅ README.md
-Follow-up TODOs:
 - None
 -->
 # nice-polyglot Constitution
@@ -27,7 +18,7 @@ Follow-up TODOs:
 
 ### I. SpecKit Compatibility First
 nice-polyglot MUST remain compatible with the SpecKit Community Extension model for
-SpecKit v0.5.0 and later. Repository structure, metadata, packaging, and command behavior
+SpecKit v0.5.1 and later. Repository structure, metadata, packaging, and command behavior
 MUST stay compatible with the upstream extension template unless a documented deviation is
 required by SpecKit itself. Rationale: the extension is only valuable if it installs and runs
 inside the supported SpecKit ecosystem without custom operator work.
