@@ -27,7 +27,7 @@ Markdown + YAML frontmatter for agent hook command files
 **Target Platform**: Any SpecKit-supported platform (Windows, macOS, Linux); PowerShell 7 required  
 **Project Type**: SpecKit Community Extension (agent commands + hooks + YAML config)  
 **Performance Goals**: N/A — config resolution is synchronous with no throughput constraints  
-**Constraints**: `.specify` path resolution must use `common.ps1`; distribution zip is the full repo root (`zip -r`); `.extensionignore` is applied by the SpecKit CLI at install time (`specify extension add`);
+**Constraints**: `.specify` path resolution must use `common.ps1`; distribution zip is the full repo root (`Compress-Archive`); `.extensionignore` is applied by the SpecKit CLI at install time (`specify extension add`);
 bilingual EN+FR user-facing documentation required; no `yq` dependency assumed (native PS parsing)  
 **Scale/Scope**: 1 extension, 8 language categories, 3 config levels, `before_*` hooks for all
 supported SpecKit workflow commands

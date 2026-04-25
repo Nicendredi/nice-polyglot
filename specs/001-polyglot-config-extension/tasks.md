@@ -126,7 +126,7 @@ Required fields:
 
 **Acceptance Criteria**:
 - `catalog-entry.json` is valid JSON (`pwsh -c "Get-Content catalog-entry.json | ConvertFrom-Json"` succeeds).
-- All required fields are present and match the values above.
+- All required fields are present. URL fields (`repository`, `download_url`) may use placeholder values (e.g., `https://github.com/nicendredi/nice-polyglot`) until the repository is created; they must be finalized before T020 packaging validation.
 - File is included in the installable zip (not excluded by `.extensionignore`).
 
 ---
@@ -260,13 +260,16 @@ All three paths are optional. When no files are present, the script uses hardcod
 
 **Algorithm steps** (implement verbatim from data-model.md):
 
-1. Start with hardcoded defaults (all categories `en`, `accepted_languages: @("en")`) as the initial working policy. If `$extension` is non-null, apply its values on top (replacing defaults). If the extension layer file exists but was unreadable/malformed, V-007 applies — log warning to stderr.
-2. Apply project layer: replace `accepted_languages` if present and non-empty (always include `en`); merge `language_settings` keys.
-3. Apply user layer: ignore `accepted_languages` if present (V-005 — log warning to stderr); merge `language_settings` keys.
-4. Validate shared file-output categories against `accepted_languages` (V-003 — fallback to `en`, log each fallback).
-5. Validate `interactions`: must match `/^[a-z]{2}$/` (V-004 — fallback to `en`).
-6. If `accepted_languages` is empty or contains no valid codes (V-001, V-002): set to `["en"]`.
-7. Return the resolved `EffectiveLanguagePolicy`.
+1. Start with hardcoded defaults (all categories `en`, `accepted_languages: @("en")`) as the initial working policy.
+2. For each layer in order (extension → project → user):
+   a. Skip if layer is `$null`.
+   b. For the user layer only: if `accepted_languages` is present, ignore it and log warning to stderr (V-005 — does not invalidate the layer).
+   c. Validate all present `accepted_languages` items against `/^[a-z]{2}$/` (V-002). Any invalid item → discard entire layer; log warning to stderr; continue to next layer.
+   d. Validate `language_settings.interactions` against `/^[a-z]{2}$/` (V-004). If invalid → discard entire layer; log warning to stderr; continue to next layer.
+   e. Validate each shared file-output category value against the effective `accepted_languages` at this point (V-003). Any invalid value → discard entire layer; log warning to stderr; continue to next layer.
+   f. Layer is valid: apply its values. Extension/project layers replace `accepted_languages` if present; all layers merge `language_settings` keys.
+3. If `accepted_languages` is empty → set to `["en"]` (V-001).
+4. Return the resolved `EffectiveLanguagePolicy`.
 
 **Shared file-output categories** (7, per [data-model.md § LanguageCategory](./data-model.md)): `artifacts`, `documentation`, `code`, `code-comments`, `log-messages`, `internal-docs`, `commit-messages`.
 
@@ -276,13 +279,13 @@ All three paths are optional. When no files are present, the script uses hardcod
 - No config files: hardcoded defaults apply — all categories `en`, `accepted_languages` is `["en"]`.
 - Extension layer only (all `en`): same as hardcoded defaults output.
 - Project sets `accepted_languages: [en, fr]` and `artifacts: fr` → `artifacts` resolves to `fr`.
-- Project sets `artifacts: es` with `accepted_languages: [en, fr]` → `artifacts` falls back to `en`; fallback is logged to stderr.
-- User sets `interactions: es` with project `accepted_languages: [en, fr]` → `interactions` resolves to `es` (unconstrained).
-- User sets `documentation: es` with project `accepted_languages: [en, fr]` → `documentation` falls back to `en`.
-- User sets `accepted_languages: [en, fr, es]` → field is ignored; stderr warning written; project's `accepted_languages` unchanged.
+- Project sets `artifacts: es` with `accepted_languages: [en, fr]` → project layer is invalid (V-003); layer is discarded; warning logged to stderr; `artifacts` resolves to `en` (hardcoded default).
+- User sets `interactions: es` with project `accepted_languages: [en, fr]` → `interactions` resolves to `es` (`es` is a valid two-letter code; `interactions` is not constrained by `accepted_languages`).
+- User sets `documentation: es` with project `accepted_languages: [en, fr]` → user layer is invalid (V-003); layer is discarded; warning logged to stderr; `documentation` resolves to the project or default value.
+- User sets `accepted_languages: [en, fr, es]` → field is ignored (V-005); stderr warning written; project's `accepted_languages` unchanged; remaining user layer fields (if valid) are applied.
 - Extension layer file `$null` (absent) → hardcoded defaults used; project and user layers still applied on top.
 - Project layer `$null` → extension/hardcoded values retained; user layer still applied.
-- `accepted_languages` containing only invalid codes → resolved to `["en"]`.
+- `accepted_languages` containing only invalid codes → layer is invalid (V-002); layer is discarded; effective `accepted_languages` remains `["en"]` (from hardcoded defaults).
 
 ---
 
@@ -373,7 +376,7 @@ scripts:
 
 **Acceptance Criteria**:
 - English section appears before French section.
-- Anchor link from English to French section is present and functional.
+- Anchor link from English to French section is present, functional, and uses the exact link text `Version française plus bas` as required by the repository constitution (Principle IV).
 - Config file paths match those in [contracts/config-schema.md § File Locations](./contracts/config-schema.md) exactly.
 - No implementation details that contradict the spec or data model.
 
@@ -460,6 +463,7 @@ scripts:
 **Acceptance Criteria**:
 - File follows Keep a Changelog format.
 - Version number matches `extension.yml` and `catalog-entry.json`.
+- Release date is a real date, not a placeholder (`YYYY-MM-DD` must be replaced before release).
 - All major deliverables of this feature are mentioned.
 
 ---
@@ -502,7 +506,7 @@ scripts:
 
 **Acceptance Criteria**:
 - Hook fires for all 5 workflows (`before_specify`, `before_plan`, `before_tasks`, `before_implement`, `before_clarify`).
-- Skipped-layer warning appears in the agent's response when a layer is unreadable (SC-003).
+- Skipped-layer warning appears in the agent's response when a layer is unreadable (FR-011, SC-003).
 - 100% of outputs follow the resolved effective language policy across all categories (SC-002).
 
 ---
@@ -535,7 +539,7 @@ scripts:
 
 **Test scenarios** (from spec User Story 4 Acceptance Scenarios):
 
-1. Build zip: `zip -r nice-polyglot-1.0.0.zip .` → install with `specify extension add nice-polyglot --from ./nice-polyglot-1.0.0.zip` → inspect installed extension directory → dev-only files absent (filtered by `.extensionignore`), all user-facing files present.
+1. Build zip: `Compress-Archive -Path . -DestinationPath nice-polyglot-1.0.0.zip` → install with `specify extension add nice-polyglot --from ./nice-polyglot-1.0.0.zip` → inspect installed extension directory → dev-only files absent (filtered by `.extensionignore`), all user-facing files present.
 2. Add `catalog-entry.json` content to a test catalog → run `specify extension add nice-polyglot` → installation succeeds; script hardcoded defaults (all English) are in effect with no config files needed.
 3. Reference `catalog-entry.json` → all required catalog fields present without reformatting.
 
@@ -563,10 +567,12 @@ scripts:
 - `docs/troubleshooting.md` + `docs/troubleshooting.fr.md` ✓
 - All 6 doc files exist and are non-empty ✓
 - EN and FR counterparts cover the same topics (spot-check each pair) ✓
+- SC-001 walk-through: follow `docs/configuration.md` from scratch (new maintainer perspective) and verify the full configure-from-zero workflow completes in under 5 minutes ✓
 
 **Acceptance Criteria**:
 - All 6 documentation files exist.
 - Each EN/FR pair covers identical topics with no content gaps.
+- SC-001: the configuration guide walk-through can be completed by a new maintainer in under 5 minutes.
 - SC-006: 100% of user-facing guidance available in both languages.
 
 ---
@@ -588,15 +594,14 @@ scripts:
 ```
 T001 → T002 → T004
      → T003
-     → T005 → T006 → T007 → T008 → T009 → T010 → T011 → T012
-                                                              ↓
-T001 → T002 → T012 → T013 → T015 → T021
-            → T014 ↑
-                    → T016
-T010 → T017 → T018 → T019
+     → T005 → T006 → T007 → T008 → T009 → T010 → T011 → T012 ──┐
+                                          └── T014 ──────────────┤→ T021
+T002 → T013 ────────────────────────────────────────────────────┤
+T013 → T015 ────────────────────────────────────────────────────┘
+T012, T013, T014, T015 → T016 → T020
 T003 → T020
 T004 → T020
-T016 → T020
+T010 → T017 → T018 → T019
 ```
 
 ### Key Interfaces

@@ -128,14 +128,17 @@ Output: `EffectiveLanguagePolicy`
       A missing or empty language_settings block contributes no overrides (working policy unchanged).
    c. If user layer is malformed/unreadable: skip it, retain current working values, log warning to stderr.
 
-4. Validate every language_settings value except interactions:
-   a. If value is not in accepted_languages → replace with "en", LOG the fallback.
+4. Per-layer field validation (applies in steps 1–3 before accepting each layer):
+   - `accepted_languages` items: all must match `/^[a-z]{2}$/` (V-002). Any invalid code → discard entire layer.
+   - `language_settings.interactions`: must match `/^[a-z]{2}$/` (V-004). If invalid → discard entire layer.
+   - Shared file-output category values: each must be in the effective `accepted_languages` at the
+     time the layer is applied (V-003). Any invalid value → discard entire layer.
+   - For each discarded layer: log warning to stderr; retain values from lower-precedence layers.
+   - Note: absent fields are not invalid — they simply contribute no override.
 
-5. Validate interactions:
-   a. If value is not a recognized two-letter code → replace with "en", LOG the fallback.
-   b. (No accepted_languages constraint for interactions.)
+5. (Reserved — no post-merge fallback step. All field validation occurs during layer application in steps 1–3.)
 
-6. If accepted_languages is empty or contains only invalid codes → set to ["en"].
+6. If accepted_languages is empty → set to ["en"] (V-001).
 
 7. Output the working policy as EffectiveLanguagePolicy.
 ```
@@ -147,9 +150,9 @@ Output: `EffectiveLanguagePolicy`
 | Rule | Condition | Action |
 |---|---|---|
 | V-001 | `accepted_languages` is missing or empty | Treat as `[en]` |
-| V-002 | `accepted_languages` contains unrecognized codes | Ignore unrecognized codes; retain valid ones; ensure `en` present |
-| V-003 | Shared file-output category value not in `accepted_languages` | Fallback to `en`; log the fallback |
-| V-004 | `interactions` value is not a two-letter code | Fallback to `en`; log the fallback |
+| V-002 | `accepted_languages` contains any unrecognized code | Entire layer is invalid; treat as malformed (see V-006) |
+| V-003 | Shared file-output category value not in resolved `accepted_languages` | Entire layer is invalid; treat as malformed (see V-006) |
+| V-004 | `interactions` value is not a valid two-letter code | Entire layer is invalid; treat as malformed (see V-006) |
 | V-005 | User layer sets `accepted_languages` | Ignore; log warning to stderr (FR-010) |
 | V-006 | Any config layer file is malformed or unreadable | Skip that layer; retain values from lower-precedence layers; log warning to stderr (FR-011) |
 | V-007 | Extension layer file exists but is unreadable or malformed | Skip it; use hardcoded defaults as starting policy; log warning to stderr; apply project and user layers normally |

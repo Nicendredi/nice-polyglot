@@ -85,10 +85,10 @@ language_settings:
 | Field | Constraint |
 |---|---|
 | `schema_version` | If present, must be `"1.0"`. Unknown versions: log warning, continue. |
-| `accepted_languages` items | Must match `/^[a-z]{2}$/`. Invalid items silently dropped. |
-| `accepted_languages` (result) | Must contain at least `"en"` after validation. |
-| `language_settings.*` (shared) | Must be in resolved `accepted_languages` or falls back to `"en"`. |
-| `language_settings.interactions` | Must match `/^[a-z]{2}$/` or falls back to `"en"`. No other constraint. |
+| `accepted_languages` items | Must match `/^[a-z]{2}$/`. Any invalid item makes the entire layer invalid (treated as malformed). |
+| `accepted_languages` (result) | Must contain at least `"en"` after all layers are merged. |
+| `language_settings.*` (shared) | Must be in resolved `accepted_languages`. An invalid value makes the entire layer invalid (treated as malformed). |
+| `language_settings.interactions` | Must match `/^[a-z]{2}$/`. An invalid value makes the entire layer invalid (treated as malformed). No `accepted_languages` constraint. |
 
 ---
 
@@ -107,7 +107,9 @@ Fallback: `$env:USERNAME` / `$env:USER` / `unknown`.
 
 ## Error Handling
 
-If a config file exists but cannot be read or parsed:
+If a config file exists but cannot be read, cannot be parsed, or contains any field with an invalid value:
 - The file is skipped entirely (all fields treated as absent for that layer)
 - A warning is surfaced to the user: `[nice-polyglot] WARNING: Could not read {path}. Using settings from lower-precedence layers.`
 - The workflow continues with the next valid lower-precedence layer values
+
+A field that is absent from a layer is not an error. Absent fields contribute no override for their keys and do not affect layer validity.
