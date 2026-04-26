@@ -46,7 +46,9 @@ supported SpecKit workflow commands
   data model (cannot expand `accepted_languages`; shared file-output categories validated against it).
 - ✅ **Canonical `.specify` resolution**: The config resolution script (`resolve-language-policy.ps1`)
   calls `common.ps1`'s `Get-RepoRoot` to locate all three config paths. No ad-hoc `.specify`
-  discovery elsewhere.
+  discovery elsewhere. The bash scaffold (`resolve-language-policy.sh`) documents its `common.sh`
+  dependency via a comment only; `common.sh` does not exist in v1.0.0. Full Principle III compliance
+  for the bash script is deferred to the feature that fully implements it.
 - ✅ **Bilingual documentation**: FR-013 and FR-014 in spec require EN+FR doc pairs. All user-facing
   topics (`installation`, `configuration`, `troubleshooting`) will have `.md` + `.fr.md` pairs.
   `README.md` follows constitution's bilingual layout (EN first, FR second, anchor link).

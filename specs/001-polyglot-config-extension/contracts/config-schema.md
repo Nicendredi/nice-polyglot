@@ -25,7 +25,7 @@ schema_version: "1.0"
 # Rules:
 #   - Values must be ISO 639-1 two-letter codes (e.g., "en", "fr", "es")
 #   - "en" is always implicitly present; add it explicitly to be clear
-#   - Unrecognized codes are silently ignored
+#   - Any unrecognized code makes the entire layer invalid (V-002); the layer is discarded and a warning is logged to stderr
 #   - An empty list is treated as ["en"]
 accepted_languages:
   - en       # English — always the fallback

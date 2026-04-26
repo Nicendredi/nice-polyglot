@@ -168,7 +168,7 @@ Include comments that explain:
 
 **Effort**: M  
 **Dependencies**: T005  
-**Description**: Create `scripts/powershell/resolve-language-policy.ps1` and `scripts/bash/resolve-language-policy.sh` with the overall script structure, `common.ps1` and `common.sh` integrations respectively for `.specify` root discovery, construction of all three config layer paths, and the `Get-UserIdentifier` and bash equivalent respectively functions for deriving the `{user}` component of the user-override filename. Keep the implementation of the bash version minimal : it will be implemented in a later feature and its not required for the initial release, but the scaffold reserves the extension point without blocking this feature's scope. The PowerShell version is the priority for v1.0.0.
+**Description**: Create `scripts/powershell/resolve-language-policy.ps1` and `scripts/bash/resolve-language-policy.sh` with the overall script structure, `common.ps1` and `common.sh` integrations respectively for `.specify` root discovery, construction of all three config layer paths, and the `Get-UserIdentifier` and bash equivalent respectively functions for deriving the `{user}` component of the user-override filename. Keep the implementation of the bash version minimal : it will be implemented in a later feature and its not required for the initial release, but the scaffold reserves the extension point without blocking this feature's scope. The PowerShell version is the priority for v1.0.0. The bash scaffold documents the `common.sh` dependency via a comment only — `common.sh` does not exist yet; its implementation and full Principle III compliance for the bash script are deferred to the feature that fully implements `resolve-language-policy.sh`.
 
 **`common.ps1` integration**:
 - Dot-source `common.ps1` from `.specify/scripts/powershell/common.ps1` (resolved relative to `Get-RepoRoot`).
@@ -194,6 +194,10 @@ All three paths are optional. When no files are present, the script uses hardcod
 - Running `Get-UserIdentifier` with `git config user.email = "test@example.com"` returns `test-at-example-com`.
 - All three config path variables are correctly constructed using the `.specify` root.
 - Script runs successfully (exit code `0`) when none of the three config files exist.
+- `scripts/bash/resolve-language-policy.sh` exists at the repository root path.
+- Bash scaffold begins with `#!/usr/bin/env bash`.
+- Bash scaffold contains a comment block summarising the expected algorithm and output contract (mirroring the PS script logic in comments), and notes that `common.sh` integration and full implementation are deferred to a future feature.
+- Bash scaffold body exits with a "not yet implemented" message on stderr and a non-zero exit code.
 
 ---
 
@@ -266,9 +270,10 @@ All three paths are optional. When no files are present, the script uses hardcod
    a. Skip if layer is `$null`.
    b. For the user layer only: if `accepted_languages` is present, ignore it and log warning to stderr (V-005 — does not invalidate the layer).
    c. Validate all present `accepted_languages` items against `/^[a-z]{2}$/` (V-002). Any invalid item → discard entire layer; log warning to stderr; continue to next layer.
-   d. Validate `language_settings.interactions` against `/^[a-z]{2}$/` (V-004). If invalid → discard entire layer; log warning to stderr; continue to next layer.
-   e. Validate each shared file-output category value against the effective `accepted_languages` at this point (V-003). Any invalid value → discard entire layer; log warning to stderr; continue to next layer.
-   f. Layer is valid: apply its values. Extension/project layers replace `accepted_languages` if present; all layers merge `language_settings` keys.
+   d. Tentatively apply this layer's `accepted_languages` (if present and layer is extension/project) to the working policy. Always ensure `en` is in the resulting list — add it if absent (FR-007).
+   e. Validate `language_settings.interactions` against `/^[a-z]{2}$/` (V-004). If invalid → discard entire layer (revert tentative `accepted_languages` change); log warning to stderr; continue to next layer.
+   f. Validate each shared file-output category value against the **updated** working `accepted_languages` (V-003). Any invalid value → discard entire layer (revert tentative `accepted_languages` change); log warning to stderr; continue to next layer.
+   g. Layer is fully valid: commit all values. `language_settings` keys from this layer replace the working policy values.
 3. If `accepted_languages` is empty → set to `["en"]` (V-001).
 4. Return the resolved `EffectiveLanguagePolicy`.
 
@@ -548,7 +553,7 @@ scripts:
 
 **Acceptance Criteria**:
 - Zip does not contain `specs/`, `.specify/`, `.github/`, `.vscode/`.
-- Zip contains: `extension.yml`, `commands/apply-language-policy.md`, `scripts/powershell/resolve-language-policy.ps1`, `config-template.yml`, `catalog-entry.json`, `docs/` (all 6 files), `README.md`, `CHANGELOG.md`, `LICENSE`.
+- Zip contains: `extension.yml`, `commands/apply-language-policy.md`, `scripts/powershell/resolve-language-policy.ps1`, `scripts/bash/resolve-language-policy.sh`, `config-template.yml`, `catalog-entry.json`, `docs/` (all 6 files), `README.md`, `CHANGELOG.md`, `LICENSE`.
 - `specify extension add` from the zip succeeds without errors.
 - After zip install, running a supported SpecKit workflow triggers the `before_*` hook.
 - SC-005: full install + verify cycle completes in < 60 seconds.
