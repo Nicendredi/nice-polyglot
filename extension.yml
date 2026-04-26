@@ -1,16 +1,30 @@
-id: nice-polyglot
-name: Nice Polyglot
-version: "1.0.0"
-description: "Configure SpecKit agents to generate outputs and interact in chosen languages"
-author: Nicendredi
-license: MIT
+schema_version: "1.0"
+
+extension:
+  id: "nice-polyglot"
+  name: "Nice Polyglot"
+  version: "1.0.0"
+  description: "Configure SpecKit agents to generate outputs and interact in chosen languages"
+  author: "Nicendredi"
+  license: "MIT"
+
 requires:
   speckit_version: ">=0.5.1"
 
-commands:
-  - id: speckit.nice-polyglot.apply-language-policy
-    file: commands/apply-language-policy.md
-    description: "Resolve and apply the effective Nice Polyglot language policy for this workflow"
+provides:
+  commands:
+    - name: "speckit.nice-polyglot.apply-language-policy"
+      file: "commands/apply-language-policy.md"
+      description: "Resolve and apply the effective Nice Polyglot language policy for this workflow"
+  scripts:
+    - name: "speckit.nice-polyglot.resolve-language-policy"
+      file: "scripts/powershell/resolve-language-policy.ps1"
+      description: "Determine the effective Nice Polyglot language policy for this workflow, applying precedence rules across extension, project, and user layers"
+  config:
+    - name: "nice_polyglot.yml"
+      template: "config-template.yml"
+      description: "Configuration file for Nice Polyglot extension. See config-template.yml for details and examples."
+      required: false
 
 hooks:
   before_specify:
