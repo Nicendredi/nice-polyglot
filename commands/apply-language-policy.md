@@ -1,7 +1,7 @@
 ---
 description: "Resolve and apply the effective Nice Polyglot language policy for this workflow"
 scripts:
-  ps: ../../scripts/powershell/resolve-language-policy.ps1
+  ps: .specify/extensions/nice-polyglot/scripts/powershell/resolve-language-policy.ps1
 ---
 
 Run the resolution script to determine the effective language policy for this workflow session:
