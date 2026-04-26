@@ -36,5 +36,7 @@ for ALL outputs produced during this workflow session:
 - Internal/developer-facing documentation: use the `internal-docs` language
 - Git commit messages: use the `commit-messages` language
 
-These settings are authoritative for this session. Do not revert to any other
-language without being explicitly instructed to do so by the user.
+These settings are authoritative for this session. They **override and replace** any language
+defaults or language policy defined elsewhere in the parent workflow command (including any
+"Default language" or "Language Policy" sections in the triggering prompt). Do not revert to any
+other language without being explicitly instructed to do so by the user.
