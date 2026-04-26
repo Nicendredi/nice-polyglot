@@ -18,10 +18,11 @@ Tasks are listed in dependency order within each phase. Complete each phase befo
 Directories to create:
 - `commands/`
 - `scripts/powershell/`
+- `scripts/bash/`
 - `docs/`
 
 **Acceptance Criteria**:
-- All three directories exist at the repository root.
+- All four directories exist at the repository root.
 - No extra directories are created beyond what the plan defines.
 
 ---
@@ -163,11 +164,11 @@ Include comments that explain:
 
 ## Phase 3 — Resolution Script
 
-### T006 · Scaffold `resolve-language-policy.ps1` with path resolution and user identity
+### T006 · Scaffold `resolve-language-policy.ps1` and `resolve-language-policy.sh` with path resolution and user identity
 
 **Effort**: M  
 **Dependencies**: T005  
-**Description**: Create `scripts/powershell/resolve-language-policy.ps1` with the overall script structure, `common.ps1` integration for `.specify` root discovery, construction of all three config layer paths, and the `Get-UserIdentifier` function for deriving the `{user}` component of the user-override filename.
+**Description**: Create `scripts/powershell/resolve-language-policy.ps1` and `scripts/bash/resolve-language-policy.sh` with the overall script structure, `common.ps1` and `common.sh` integrations respectively for `.specify` root discovery, construction of all three config layer paths, and the `Get-UserIdentifier` and bash equivalent respectively functions for deriving the `{user}` component of the user-override filename. Keep the implementation of the bash version minimal : it will be implemented in a later feature and its not required for the initial release, but the scaffold reserves the extension point without blocking this feature's scope. The PowerShell version is the priority for v1.0.0.
 
 **`common.ps1` integration**:
 - Dot-source `common.ps1` from `.specify/scripts/powershell/common.ps1` (resolved relative to `Get-RepoRoot`).
@@ -279,7 +280,7 @@ All three paths are optional. When no files are present, the script uses hardcod
 - No config files: hardcoded defaults apply — all categories `en`, `accepted_languages` is `["en"]`.
 - Extension layer only (all `en`): same as hardcoded defaults output.
 - Project sets `accepted_languages: [en, fr]` and `artifacts: fr` → `artifacts` resolves to `fr`.
-- Project sets `artifacts: es` with `accepted_languages: [en, fr]` → project layer is invalid (V-003); layer is discarded; warning logged to stderr; `artifacts` resolves to `en` (hardcoded default).
+- Project sets `artifacts: es` with `accepted_languages: [en, fr]` → project layer is invalid (V-003); layer is discarded; warning logged to stderr; `artifacts` resolves to `fr` (extension layer value).
 - User sets `interactions: es` with project `accepted_languages: [en, fr]` → `interactions` resolves to `es` (`es` is a valid two-letter code; `interactions` is not constrained by `accepted_languages`).
 - User sets `documentation: es` with project `accepted_languages: [en, fr]` → user layer is invalid (V-003); layer is discarded; warning logged to stderr; `documentation` resolves to the project or default value.
 - User sets `accepted_languages: [en, fr, es]` → field is ignored (V-005); stderr warning written; project's `accepted_languages` unchanged; remaining user layer fields (if valid) are applied.
