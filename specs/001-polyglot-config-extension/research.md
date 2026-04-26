@@ -81,9 +81,14 @@ Schema-safe assumptions the parser can rely on:
 - `accepted_languages` items are prefixed with `- `
 - No anchors, aliases, or complex YAML features
 
-**Rationale**: Portability on Windows (no `yq` guarantee), macOS, and Linux without requiring
-module installation. The schema is under the extension author's control and will not evolve to
-require full YAML support.
+**Rationale**: The PowerShell script is the primary implementation target for this feature.
+The schema is under the extension author's control and will not evolve to require full YAML support.
+
+**Bash scaffold**: This feature also scaffolds `resolve-language-policy.sh` — a bash-compatible
+version of the resolution script — as a placeholder to signal cross-platform intent and define the
+expected interface. The scaffold contains the correct shebang, parameter conventions, and output
+contract but is not fully implemented. Full bash implementation is deferred to a later feature
+targeting Linux/macOS environments.
 
 **Alternatives considered**:
 - *Require `yq`*: Declare as a required tool in `extension.yml`. Rejected because `yq` is not
@@ -92,6 +97,8 @@ require full YAML support.
   requires elevated privileges or explicit setup in many CI/CD environments.
 - *Agent reads YAML directly*: Let the agent do the merging via its native file-reading. Rejected
   (see Decision 1 — non-deterministic, untestable).
+- *Full bash implementation in this feature*: Deferred. The PowerShell script covers the primary
+  use case; the bash scaffold reserves the extension point without blocking this feature's scope.
 
 ---
 
