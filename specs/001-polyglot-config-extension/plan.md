@@ -65,11 +65,11 @@ specs/001-polyglot-config-extension/
 ├── data-model.md        # Phase 1 output (/speckit.plan command)
 ├── quickstart.md        # Phase 1 output (/speckit.plan command)
 ├── contracts/           # Phase 1 output (/speckit.plan command)
-│   ├── config-schema.md
-│   └── hook-contract.md
+│   ├── config-schema.md # Phase 1 output (/speckit.plan command)
+│   └── hook-contract.md # Phase 1 output (/speckit.plan command)
 └── tasks.md             # Phase 2 output (/speckit.tasks command — NOT created by /speckit.plan)
 
-README.md                # Bilingual root overview: title, EN anchor, English section, French section
+README.md                # Bilingual root overview: title, FR anchor, English section, French section
 docs/
 ├── installation.md      # EN installation guide
 ├── installation.fr.md   # FR counterpart
@@ -107,7 +107,7 @@ docs/
 
 .specify/                       # SpecKit dev tooling (excluded at install time via .extensionignore)
 specs/                          # SpecKit spec artifacts (excluded from zip)
-.github/                        # CI config (excluded from zip)
+.github/                        # CI and GitHub Copilot config (excluded from zip)
 ```
 
 **Structure Decision**: Extension root doubles as the repository root. User-facing extension files
