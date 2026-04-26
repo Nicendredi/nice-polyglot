@@ -4,11 +4,11 @@ scripts:
   ps: .specify/extensions/nice-polyglot/scripts/powershell/resolve-language-policy.ps1
 ---
 
-**MANDATORY — run the following command in a terminal. Do not skip this step. Do not infer the
+**MANDATORY — run the following command in a terminal now. Do not skip this step. Do not infer the
 language policy from project files, existing documents, user history, or any other source.**
 
 ```terminal
-{SCRIPT}
+pwsh -NoProfile -File ".specify/extensions/nice-polyglot/scripts/powershell/resolve-language-policy.ps1"
 ```
 
 **If the script cannot be executed** (e.g. file not found), default to all-English settings
