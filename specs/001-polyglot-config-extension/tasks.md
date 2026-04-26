@@ -164,7 +164,7 @@ Include comments that explain:
 
 ## Phase 3 — Resolution Script
 
-### T006 · Scaffold `resolve-language-policy.ps1` and `resolve-language-policy.sh` with path resolution and user identity
+### T006 · ✅ Scaffold `resolve-language-policy.ps1` and `resolve-language-policy.sh` with path resolution and user identity
 
 **Effort**: M  
 **Dependencies**: T005  
@@ -201,7 +201,7 @@ All three paths are optional. When no files are present, the script uses hardcod
 
 ---
 
-### T007 · Implement native PS YAML parser (`Parse-NicePolyglotConfig`)
+### T007 · ✅ Implement native PS YAML parser (`Parse-NicePolyglotConfig`)
 
 **Effort**: M  
 **Dependencies**: T006  
@@ -231,7 +231,7 @@ All three paths are optional. When no files are present, the script uses hardcod
 
 ---
 
-### T008 · Implement config layer loader with error handling
+### T008 · ✅ Implement config layer loader with error handling
 
 **Effort**: M  
 **Dependencies**: T006, T007  
@@ -254,7 +254,7 @@ All three paths are optional. When no files are present, the script uses hardcod
 
 ---
 
-### T009 · Implement 3-layer merge algorithm with validation rules
+### T009 · ✅ Implement 3-layer merge algorithm with validation rules
 
 **Effort**: L  
 **Dependencies**: T008  
@@ -295,7 +295,7 @@ All three paths are optional. When no files are present, the script uses hardcod
 
 ---
 
-### T010 · Implement script output formatting
+### T010 · ✅ Implement script output formatting
 
 **Effort**: S  
 **Dependencies**: T009  
@@ -333,7 +333,7 @@ Rules:
 
 ## Phase 4 — Hook Command
 
-### T011 · Create `commands/apply-language-policy.md`
+### T011 · ✅ Create `commands/apply-language-policy.md`
 
 **Effort**: M  
 **Dependencies**: T002, T010  
@@ -364,7 +364,7 @@ scripts:
 
 ## Phase 5 — Documentation
 
-### T012 · Write `README.md`
+### T012 · ✅ Write `README.md`
 
 **Effort**: M  
 **Dependencies**: T002, T005, T011  
@@ -388,7 +388,7 @@ scripts:
 
 ---
 
-### T013 · Write `docs/installation.md` + `docs/installation.fr.md`
+### T013 · ✅ Write `docs/installation.md` + `docs/installation.fr.md`
 
 **Effort**: M  
 **Dependencies**: T002, T003, T004  
@@ -410,7 +410,7 @@ scripts:
 
 ---
 
-### T014 · Write `docs/configuration.md` + `docs/configuration.fr.md`
+### T014 · ✅ Write `docs/configuration.md` + `docs/configuration.fr.md`
 
 **Effort**: M  
 **Dependencies**: T005, T009  
@@ -434,7 +434,7 @@ scripts:
 
 ---
 
-### T015 · Write `docs/troubleshooting.md` + `docs/troubleshooting.fr.md`
+### T015 · ✅ Write `docs/troubleshooting.md` + `docs/troubleshooting.fr.md`
 
 **Effort**: M  
 **Dependencies**: T013, T014  
@@ -455,7 +455,7 @@ scripts:
 
 ---
 
-### T016 · Write `CHANGELOG.md`
+### T016 · ✅ Write `CHANGELOG.md`
 
 **Effort**: S  
 **Dependencies**: T002, T005, T011, T012, T013, T014, T015  
