@@ -120,13 +120,13 @@ Output: `EffectiveLanguagePolicy`
       Always ensure "en" is in the list (add it if absent).
    b. For each language_settings key present in project layer, replace the working value.
       A missing or empty language_settings block contributes no overrides (working policy unchanged).
-   c. If project layer is malformed/unreadable: skip it, retain current working values, log warning to stderr.
+   c. If project layer is malformed/unreadable: skip it, retain lower-precedence working values, log warning to stderr.
 
 3. If user layer file exists and is readable:
    a. If accepted_languages field is present, ignore it and log a warning to stderr (FR-010).
    b. For each language_settings key present in user layer, replace the working value.
       A missing or empty language_settings block contributes no overrides (working policy unchanged).
-   c. If user layer is malformed/unreadable: skip it, retain current working values, log warning to stderr.
+   c. If user layer is malformed/unreadable: skip it, retain lower-precedence working values, log warning to stderr.
 
 4. Per-layer field validation (applies in steps 1–3 before accepting each layer):
    - `accepted_languages` items: all must match `/^[a-z]{2}$/` (V-002). Any invalid code → discard entire layer.
