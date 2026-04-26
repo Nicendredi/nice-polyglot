@@ -88,7 +88,7 @@ An extension maintainer packages the extension for installation through the stan
 - **FR-001**: The extension MUST provide a built-in base language policy that defines the accepted languages for shared file outputs and the default language for each supported category. This built-in policy consists of hardcoded defaults in the resolution script (all categories `en`, `accepted_languages: [en]`), which are distinct from the optional extension-layer configuration file (`.specify/extensions/nice-polyglot/nice-polyglot-config.yml`) that users may create to establish shared defaults across multiple projects in a shared `.specify/` root.
 - **FR-002**: The extension MUST allow a project-level configuration source to override the built-in base language policy.
 - **FR-003**: The extension MUST allow a user-level configuration source to override allowed personal settings without changing project authority over accepted shared-file languages.
-- **FR-004**: Effective settings MUST resolve in this precedence order: built-in base policy, then project-level overrides, then user-level overrides.
+- **FR-004**: Effective settings MUST resolve in this precedence order: built-in base policy, then extension-layer overrides, then project-level overrides, then user-level overrides.
 - **FR-005**: The extension MUST support independent language settings for these categories: user interactions, SpecKit artifacts, user-facing documentation, generated code, code comments, log messages, internal documentation, and commit messages.
 - **FR-006**: The project configuration MUST define an accepted language list for shared file outputs. Any shared file-output category whose configured language is missing or not accepted MUST resolve to English.
 - **FR-007**: English MUST always remain available as the fallback language for every category.
@@ -105,7 +105,7 @@ An extension maintainer packages the extension for installation through the stan
 ### Documentation & Delivery Impact *(mandatory when applicable)*
 
 - **Docs Impact**: The feature requires installation guidance, a configuration reference, override-precedence guidance, accepted-language examples, and troubleshooting guidance. Each user-facing topic must be maintained as an English/French document pair.
-- **README Impact**: The root `README.md` must describe the extension purpose, installation flow, and configuration model while preserving the existing English-first, French-second bilingual layout.
+- **README Impact**: The root `README.md` must describe the extension purpose, installation flow, and configuration model while preserving the existing English-first, French-second bilingual layout defined by the constitution.
 - **Packaging Impact**: Packaging rules and catalog metadata are part of the feature scope because users install the extension from a packaged archive rather than from the repository source tree.
 - **Hook Impact**: Any supported workflow stage that applies language guidance must be documented clearly enough that users understand when the extension influences interactions and generated outputs.
 
@@ -113,7 +113,7 @@ An extension maintainer packages the extension for installation through the stan
 
 - **Language Policy**: The effective set of language choices in force for a given project and user. Attributes include the accepted shared-file languages and the resolved language for each category.
 - **Language Category**: A configurable output or interaction type whose language can be set independently. Categories include one conversational category and seven shared file-output categories.
-- **Override Source**: A configuration layer that contributes settings to the effective language policy. Types are base, project, and user.
+- **Override Source**: A configuration layer that contributes settings to the effective language policy. Types are base, extension, project, and user.
 
 ## Success Criteria *(mandatory)*
 
