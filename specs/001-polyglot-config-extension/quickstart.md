@@ -43,8 +43,8 @@ nice-polyglot/               ← repo root = extension root
 │   ├── configuration.md / configuration.fr.md
 │   └── troubleshooting.md / troubleshooting.fr.md
 │
-├── specs/                   ← SpecKit planning artifacts (excluded from zip)
-└── .specify/                ← SpecKit dev config (excluded from zip)
+├── specs/                   ← SpecKit planning artifacts (excluded from installation)
+└── .specify/                ← SpecKit dev config (excluded from installation)
 ```
 
 ---
