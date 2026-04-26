@@ -1,0 +1,35 @@
+id: nice-polyglot
+name: Nice Polyglot
+version: "1.0.0"
+description: "Configure SpecKit agents to generate outputs and interact in chosen languages"
+author: Nicendredi
+license: MIT
+requires:
+  speckit_version: ">=0.5.1"
+
+commands:
+  - id: speckit.nice-polyglot.apply-language-policy
+    file: commands/apply-language-policy.md
+    description: "Resolve and apply the effective Nice Polyglot language policy for this workflow"
+
+hooks:
+  before_specify:
+    command: "speckit.nice-polyglot.apply-language-policy"
+    optional: false
+    description: "Apply effective language policy before spec generation"
+  before_plan:
+    command: "speckit.nice-polyglot.apply-language-policy"
+    optional: false
+    description: "Apply effective language policy before implementation planning"
+  before_tasks:
+    command: "speckit.nice-polyglot.apply-language-policy"
+    optional: false
+    description: "Apply effective language policy before task generation"
+  before_implement:
+    command: "speckit.nice-polyglot.apply-language-policy"
+    optional: false
+    description: "Apply effective language policy before implementation"
+  before_clarify:
+    command: "speckit.nice-polyglot.apply-language-policy"
+    optional: false
+    description: "Apply effective language policy before spec clarification"

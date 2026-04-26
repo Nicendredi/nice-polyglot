@@ -1,0 +1,7 @@
+# Dev tooling and spec artifacts — excluded at install time by `specify extension add`
+specs/
+.specify/
+.github/
+.vscode/
+.extensionignore
+*.zip

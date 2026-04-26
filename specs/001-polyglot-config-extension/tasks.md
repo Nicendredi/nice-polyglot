@@ -9,7 +9,7 @@ Tasks are listed in dependency order within each phase. Complete each phase befo
 
 ## Phase 1 — Project Scaffolding
 
-### T001 · Create repository directory structure
+### T001 · ✅ Create repository directory structure
 
 **Effort**: S  
 **Dependencies**: none  
@@ -27,7 +27,7 @@ Directories to create:
 
 ---
 
-### T002 · Create `extension.yml` manifest
+### T002 · ✅ Create `extension.yml` manifest
 
 **Effort**: S  
 **Dependencies**: T001  
@@ -81,7 +81,7 @@ hooks:
 
 ---
 
-### T003 · Create `.extensionignore`
+### T003 · ✅ Create `.extensionignore`
 
 **Effort**: S  
 **Dependencies**: T001  
@@ -102,7 +102,7 @@ Paths to exclude:
 
 ---
 
-### T004 · Create `catalog-entry.json`
+### T004 · ✅ Create `catalog-entry.json`
 
 **Effort**: S  
 **Dependencies**: T002  
@@ -134,7 +134,7 @@ Required fields:
 
 ## Phase 2 — Configuration Artifacts
 
-### T005 · Create `config-template.yml`
+### T005 · ✅ Create `config-template.yml`
 
 **Effort**: S  
 **Dependencies**: T001  

@@ -1,0 +1,18 @@
+{
+  "id": "nice-polyglot",
+  "name": "Nice Polyglot",
+  "description": "Configure SpecKit agents to generate outputs and interact in chosen languages",
+  "author": "Nicendredi",
+  "version": "1.0.0",
+  "license": "MIT",
+  "requires": {
+    "speckit_version": ">=0.5.1"
+  },
+  "provides": {
+    "commands": 1,
+    "hooks": 5
+  },
+  "tags": ["localization", "language", "configuration", "process"],
+  "repository": "https://github.com/nicendredi/nice-polyglot",
+  "download_url": "https://github.com/nicendredi/nice-polyglot/archive/refs/tags/v1.0.0.zip"
+}
