@@ -4,14 +4,19 @@ scripts:
   ps: .specify/extensions/nice-polyglot/scripts/powershell/resolve-language-policy.ps1
 ---
 
-Run the resolution script to determine the effective language policy for this workflow session:
+**MANDATORY — run the following command in a terminal. Do not skip this step. Do not infer the
+language policy from project files, existing documents, user history, or any other source.**
 
-```
+```terminal
 {SCRIPT}
 ```
 
-Parse the output block between `NICE_POLYGLOT_POLICY_START` and `NICE_POLYGLOT_POLICY_END` to
-extract the resolved language assignments.
+**If the script cannot be executed** (e.g. file not found), default to all-English settings
+(`interactions: en`, all file-output categories: `en`) and notify the user.
+
+Parse the terminal output between `NICE_POLYGLOT_POLICY_START` and `NICE_POLYGLOT_POLICY_END` to
+extract the resolved language assignments. The built-in default for every category is `en` (English)
+when no configuration files are present.
 
 If there are any warnings on stderr (e.g. `[nice-polyglot] WARNING: Could not read ...`), surface
 them to the user as a brief note before beginning the main task. For example:
