@@ -74,6 +74,7 @@ All fields are optional. Missing fields fall through to the next lower layer.
 | [docs/installation.md](docs/installation.md) | Full installation steps and verification |
 | [docs/configuration.md](docs/configuration.md) | Complete configuration reference |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | Diagnosing common problems |
+| [ROADMAP.md](ROADMAP.md) | Known limitations, issues, and planned enhancements |
 
 ---
 
