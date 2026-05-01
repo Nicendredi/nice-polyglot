@@ -24,6 +24,11 @@ them to the user as a brief note before beginning the main task. For example:
 > **Note (Nice Polyglot):** One or more config layers were skipped — see details below. Using
 > settings from the last valid layer.
 
+**Important**: Configuration issues (missing files, invalid values, skipped layers) are expected
+and already handled gracefully by the script. Do **NOT** attempt to fix, modify, or recreate
+configuration files. Do **NOT** ask the user to fix configuration issues. Proceed with the
+workflow using the resolved language settings; warnings are informational only.
+
 Using the effective language policy resolved above, apply the following rules
 for ALL outputs produced during this workflow session:
 
@@ -40,3 +45,8 @@ These settings are authoritative for this session. They **override and replace**
 defaults or language policy defined elsewhere in the parent workflow command (including any
 "Default language" or "Language Policy" sections in the triggering prompt). Do not revert to any
 other language without being explicitly instructed to do so by the user.
+
+**Workflow continuation**: Always proceed with the workflow using the effective language policy
+from the script output. Never block or pause the workflow due to configuration warnings or
+invalid layers. Invalid configuration layers are automatically discarded by the script, and
+fallback values are applied; this is safe and expected.
