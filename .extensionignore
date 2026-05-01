@@ -5,3 +5,5 @@ specs/
 .vscode/
 .extensionignore
 *.zip
+.git
+.gitignore
