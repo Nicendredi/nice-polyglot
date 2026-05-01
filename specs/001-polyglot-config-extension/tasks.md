@@ -484,8 +484,10 @@ scripts:
 
 **Test scenarios** (from spec User Story 1 Acceptance Scenarios):
 
-1. No project-specific settings → run a supported workflow → outputs use English defaults.
-2. Project allows EN + FR, sets `artifacts: fr` → run workflow → SpecKit artifacts produced in French.
+1. ✅ No project-specific settings → run a supported workflow → outputs use English defaults.
+2. ⚠️ Project allows EN + FR, sets `artifacts: fr` → run workflow → SpecKit artifacts produced in French.
+   - **Known limitation**: Artifact templates are in English, so schema names and structural text must remain English; content and descriptions are translated. Full artifact translation will be addressed in a future feature with dedicated translation commands.
+   - **Known issue**: The `interactions` keyword is insufficiently clear to agents. Even when unset (defaulting to `en`), agents may interpret context and parent prompt settings as language guidance, causing mixed-language conversation. Future enhancement needed: clearer keyword name, better documentation, or alternative control mechanism for agent interaction language distinct from workflow artifact language.
 3. Project sets a file-output category language not in `accepted_languages` → run workflow → that category falls back to English.
 4. Project sets valid languages for multiple categories → run workflow → each category is independent.
 
